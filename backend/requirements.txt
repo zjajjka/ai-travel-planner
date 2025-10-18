@@ -1,0 +1,16 @@
+Flask==2.3.3
+Flask-SQLAlchemy==3.0.5
+Flask-CORS==4.0.0
+Flask-JWT-Extended==4.5.3
+Werkzeug==2.3.7
+python-dotenv==1.0.0
+requests==2.31.0
+gunicorn==21.2.0
+psycopg2-binary==2.9.7
+redis==5.0.0
+alibabacloud-dashscope==1.14.0
+alibabacloud-nls-cloud-meta==1.0.0
+alibabacloud-nls-cloud-sdk==1.0.0
+pydub==0.25.1
+speechrecognition==3.10.0
+pyaudio==0.2.11
