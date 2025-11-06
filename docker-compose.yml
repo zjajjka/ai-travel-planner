@@ -1,70 +1,16 @@
 
 
 services:
-  # PostgreSQL 数据库
-  postgres:
-    image: postgres:15
-    environment:
-      POSTGRES_DB: travel_planner
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    networks:
-      - app-network
-
-  # Redis 缓存
-  redis:
-    image: redis:7-alpine
-    ports:
-      - "6379:6379"
-    networks:
-      - app-network
-
-  # 后端服务
-  backend:
+  ai-travel-planner:
     build:
-      context: ./backend
+      context: .
       dockerfile: Dockerfile
-    environment:
-      - FLASK_ENV=production
-      - DATABASE_URL=postgresql://postgres:password@postgres:5432/travel_planner
-      - REDIS_URL=redis://redis:6379/0
-    env_file:
-      - .env
-    ports:
-      - "5000:5000"
-    depends_on:
-      - postgres
-      - redis
-    networks:
-      - app-network
-    volumes:
-      - ./backend:/app
-    command: python app.py
-
-  # 前端服务
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    environment:
-      - REACT_APP_API_URL=http://localhost:5000
     ports:
       - "3000:3000"
-    depends_on:
-      - backend
-    networks:
-      - app-network
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
     volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      - ./config:/app/config
+    restart: unless-stopped
 
-volumes:
-  postgres_data:
-
-networks:
-  app-network:
-    driver: bridge
